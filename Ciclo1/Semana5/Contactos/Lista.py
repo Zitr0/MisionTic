@@ -29,9 +29,74 @@ class Lista():
                 n = Nodo(datos[1], datos[3], datos[2])
                 varClase.agregar(n)
 
-    def mostrar(varClase):
+    def mostrar(varClase, prefijo):
         # recorrer la lista hasta el ultimo nodo
         apuntador = varClase.cabeza
         while apuntador != None:
-            print(apuntador.nombre, apuntador.correo)
+            if prefijo == "" or apuntador.nombre.lower().startswith(prefijo.lower()):
+                print(apuntador.nombre, apuntador.correo, apuntador.movil)
             apuntador = apuntador.siguiente
+
+    def obtenerPredecesor(varClase, n):
+        predecesor = None
+        if n != None and varClase.cabeza != None and varClase.cabeza!=n:
+            predecesor = varClase.cabeza
+            while predecesor != None and predecesor.siguiente!=n:
+                predecesor = predecesor.siguiente
+        return predecesor
+
+    def intercambiar(varClase, n1, n2):
+        if n1 != None and n2 != None and n1 != n2:
+            cambiarSiguientes = False
+            predecesor1 = varClase.obtenerPredecesor(n1)
+            predecesor2 = varClase.obtenerPredecesor(n2)
+            if predecesor1 != None:
+                if predecesor1 != n2:
+                    predecesor1.siguiente = n2
+                    cambiarSiguientes = True
+                else:
+                    n2.siguiente = n1.siguiente
+                    n1.siguiente = n2
+                    if predecesor2 != None:
+                        predecesor2.siguiente = n1
+            else:
+                # El primer nodo es el Cabeza
+                varClase.cabeza = n2
+                cambiarSiguientes = True
+
+            if predecesor2 != None:
+                if predecesor2 != n1:
+                    predecesor2.siguiente = n1
+                    cambiarSiguientes = True
+                else:
+                    cambiarSiguientes = False
+                    n1.siguiente = n2.siguiente
+                    n2.siguiente = n1
+                    if predecesor1 != None:
+                        predecesor1.siguiente = n2
+            else:
+                varClase.cabeza = n1
+                cambiarSiguientes = True
+
+            if cambiarSiguientes:
+                siguiente1 = n1.siguiente
+                n1.siguiente = n2.siguiente
+                n2.siguiente = siguiente1
+
+    #Ordenar ascendentemente la lista por el nombre
+    def ordenar(varClase):
+        if varClase.cabeza != None:
+            apuntador1 = varClase.cabeza
+            while apuntador1.siguiente != None:
+                apuntador2 = apuntador1.siguiente
+                while apuntador2 != None:
+                    #Intercambiar siempre y cuando
+                    if apuntador1.nombre > apuntador2.nombre:
+                        n1 = apuntador1
+                        n2 = apuntador2
+                        varClase.intercambiar(n1, n2)
+                        apuntador1 = n2
+                        apuntador2 = n1
+                    apuntador2 = apuntador2.siguiente
+
+                apuntador1 = apuntador1.siguiente

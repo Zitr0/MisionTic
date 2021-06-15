@@ -36,7 +36,8 @@ while opcionMenu != 7:
         n = Nodo(nombre, movil, correo)
         contactos.agregar(n)
     elif opcionMenu == 2:
-        contactos.mostrar()
+        prefijo = input("Mostrar que comience por: ")
+        contactos.mostrar(prefijo)
     elif opcionMenu == 3:
         print("No implementado")
     elif opcionMenu == 4:
@@ -44,7 +45,8 @@ while opcionMenu != 7:
     elif opcionMenu == 5:
         print("No implementado")
     elif opcionMenu == 6:
-        print("No implementado")
+        contactos.ordenar()
+        print("La lista fue ordenada por el nombre")
     elif opcionMenu != 7:
         print("Opcion no válida")
 
