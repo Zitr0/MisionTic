@@ -16,6 +16,7 @@ contactos = Lista()
 contactos.desdeArchivo("Contactos.txt")
 
 opcionMenu = 0
+nodoBuscado = None
 while opcionMenu != 7:
     print("********** Menú de Contactos **********")
     print("1. Agregar contacto")
@@ -36,17 +37,57 @@ while opcionMenu != 7:
         n = Nodo(nombre, movil, correo)
         contactos.agregar(n)
     elif opcionMenu == 2:
-        prefijo = input("Mostrar que comience por: ")
+        prefijo=input("Mostrar que comiencen por:")
         contactos.mostrar(prefijo)
     elif opcionMenu == 3:
-        print("No implementado")
+        nodoBuscado = None
+        textoBusqueda=input("Nombre a buscar:")
+        nodos = contactos.buscar(textoBusqueda)
+        if nodos:
+            if len(nodos)==1:
+                nodoBuscado = nodos[0]
+            else:
+                print("Se encontraron estos registros:")
+                fila = 1
+                for n in nodos:
+                    print("Registro ", fila, ":")
+                    n.mostrar()
+                    fila += 1
+                indiceElegido = 0
+                while indiceElegido not in range(1, len(nodos)+1):
+                    indiceElegido = int(leerNumero("Cual elige?"))
+                nodoBuscado = nodos[indiceElegido-1]
+            print("Se eligió este registro:")
+            nodoBuscado.mostrar() 
+        else:
+            print("No se encontraron registros")
     elif opcionMenu == 4:
-        print("No implementado")
+        if nodoBuscado:
+            print("Nombre actual ", nodoBuscado.nombre)
+            texto = input("Nuevo nombre?")
+            if len(texto)>0:
+                nodoBuscado.nombre = texto
+            print("Correo actual ", nodoBuscado.correo)
+            texto = input("Nuevo correo?")
+            if len(texto)>0:
+                nodoBuscado.correo = texto
+            print("Móvil actual ", nodoBuscado.movil)
+            texto = input("Nuevo Móvil?")
+            if len(texto)>0:
+                nodoBuscado.movil = texto
+            print("El registro quedó así:")
+            nodoBuscado.mostrar() 
+        else:
+            print("No hay contacto seleccionado")
     elif opcionMenu == 5:
-        print("No implementado")
+        if nodoBuscado:
+            contactos.eliminar(nodoBuscado)
+            print("El nodo fue eliminado")
+        else:
+            print("No hay contacto seleccionado")
     elif opcionMenu == 6:
         contactos.ordenar()
-        print("La lista fue ordenada por el nombre")
+        print("La lista fue ordenada alfabeticamente por el nombre")
     elif opcionMenu != 7:
         print("Opcion no válida")
 
