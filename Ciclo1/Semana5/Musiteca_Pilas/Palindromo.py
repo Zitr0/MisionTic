@@ -1,4 +1,4 @@
-from MisionTic.Ciclo1.Semana5.Musiteca.Pila import Pila
+from MisionTic.Ciclo1.Semana5.Musiteca_Pilas.Pila import Pila
 
 frase = input("Frase a validar?")
 
