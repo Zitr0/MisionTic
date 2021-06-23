@@ -7,6 +7,8 @@ from tkinter import messagebox
 #Importar libreria para pestañas
 from tkinter.ttk import Notebook
 
+from Jugador import Jugador
+
 #crear ventana
 v = Tk()
 v.title("Juego del apuntado")
@@ -17,11 +19,26 @@ mnuP = Menu(v)
 #Agregar a la ventana
 v.config(menu=mnuP)
 
+j1 = Jugador()
+j2 = Jugador()
+
 def repartir():
-    messagebox.showinfo("Probando menu", "Hizo click en repartir")
+    messagebox.showinfo("Repartir", "Se va a repartir las cartas para los jugadores")
+    global j1, j2
+    j1.repartir()
+    j2.repartir()
+
+    j1.mostrar(f1)
+    j2.mostrar(f2)
 
 def verificar():
-    messagebox.showinfo("Probando menu", "Hizo click en verificar")
+    messagebox.showinfo("Verificar", "Se va a verificar las cartas")
+    global j1, j2
+    if nbJ.index(nbJ.select()) == 0:
+        messagebox.showinfo("", j1.verificar())
+    elif nbJ.index(nbJ.select()) == 1:
+        messagebox.showinfo("", j2.verificar())
+
 
 def salir():
     v.destroy()

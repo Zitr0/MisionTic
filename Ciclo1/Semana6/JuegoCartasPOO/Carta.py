@@ -1,6 +1,9 @@
 #Importar libreria para generar numeros aleatorios
 import random
 
+#importar libreria para interfaces graficas
+from tkinter import *
+
 from Enumerado import *
 
 class Carta():
@@ -22,3 +25,17 @@ class Carta():
 
         else:
             return PintaCarta.DIAMANTE
+
+    def mostrar(varClase, frm, x, y):
+        lbl = Label(frm)
+
+        img = PhotoImage(file=".\Cartas\Carta" + str(varClase.indice) + ".gif")
+        lbl.config(image=img)
+        lbl.image = img
+        lbl.place(x=x, y=y)
+
+    def obtenerIndiceNumero(varClase):
+        n = varClase.indice % 13
+        if n == 0:
+            n = 13
+        return n
