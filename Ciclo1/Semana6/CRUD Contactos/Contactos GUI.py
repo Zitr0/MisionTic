@@ -15,6 +15,16 @@ iconos = ["./iconos/agregar.png", \
           "./iconos/cancelar.png", \
           ]
 
+#Lista de tooltips para los botones
+textosTooltip = [ "Agregar Contacto", \
+                  "Modificar Contacto", \
+                  "Quitar Contacto", \
+                  "Guardar cambios",\
+                  "Ordenar lista", \
+                  "Aceptar cambios", \
+                  "Cancelar edición"
+                  ]
+
 #posiciones de los botones de edición para habilitarlos/deshabilitarlos
 indiceBA = 5
 indiceBC = 6
@@ -57,8 +67,9 @@ def habilitar(editando):
 #Metodo que muestra los contactos en una tabla
 def mostrar():
 
+    global tContactos
     datos = Contacto.pasarMatriz()
-    Util.mostrarTabla(paneles[0], encabezados, datos, tContactos)
+    tContactos = Util.mostrarTabla(paneles[0], encabezados, datos, tContactos)
 
 
 #Método para limpiar los objetos de la edicion de un Contacto
@@ -86,10 +97,15 @@ def iniciarEdicion():
         limpiar()
 
 def agregar():
-    pass
+    Contacto.indice = -1
+    iniciarEdicion()
     
 def modificar():
-    pass
+    if tContactos.selection():
+        Contacto.indice = tContactos.index(tContactos.selection())
+        iniciarEdicion()
+    else:
+        messagebox.showinfo("", "No tiene ningún contacto seleccionado")
 
 def eliminar():
     pass
@@ -101,15 +117,37 @@ def ordenar():
     pass
 
 def aceptar():
-    pass
+    #Verificar si estoy agregando
+    if Contacto.indice == -1:
+        if txtId.get() != '' and txtNombre.get() != '' and txtCorreo.get() != '' and txtMovil.get() != '':
+            Contacto.agregar(txtId.get(), \
+                             txtNombre.get(), \
+                             txtCorreo.get(), \
+                             txtMovil.get())
+            messagebox.showinfo("", "Contacto agregado al final de la lista")
+        else:
+            messagebox.showinfo("", "Faltan datos")
+            habilitar()
+    else:
+        Contacto.modificar(txtId.get(), \
+                         txtNombre.get(), \
+                         txtCorreo.get(), \
+                         txtMovil.get())
+
+    #Volver al modo de listado
+    habilitar(False)
+    mostrar()
 
 def cancelar():
-    pass
+    limpiar()
+    # Volver al modo de listado
+    mostrar()
+
 
 #Construir interfaz gráfica
 v = Tk()
 v.title("Mis contactos")
-botones = Util.agregarBarra(v, iconos) #Agrega una barra de herramientas
+botones = Util.agregarBarra(v, iconos, textosTooltip) #Agrega una barra de herramientas
 nb = Notebook(v)
 nb.pack(fill=BOTH, expand=YES)
 
@@ -127,10 +165,16 @@ txtCorreo=Util.agregarTexto(paneles[1], 30, 2, 1)
 txtMovil=Util.agregarTexto(paneles[1], 30, 3, 1)
 
 #Comenzar con el despliegue de los datos
-
 habilitar(False)
 Contacto.obtener("Contactos.txt")
 mostrar()
+
+#Agregar los eventos asociados a los botones
+botones[0].configure(command=agregar)
+botones[1].configure(command=modificar)
+
+botones[5].configure(command=aceptar)
+botones[6].configure(command=cancelar)
 
 v.mainloop()
 

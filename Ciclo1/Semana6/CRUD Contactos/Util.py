@@ -55,10 +55,21 @@ def esReal(texto):
 def esEntero(texto):
     return True if re.match("^[-]?[0-9]+$", texto) else False
 
-def agregarBarra(ventana, imagenes):
+def crearTooltip(objetoTkinter, texto):
+    toolTip = ToolTip(objetoTkinter)
+    #Definir eventos que activan/desactivan el tooltip
+    def enter(event):
+        toolTip.mostrar(texto)
+    def leave(event):
+        toolTip.ocultar()
+    objetoTkinter.bind("<Enter>", enter)
+    objetoTkinter.bind("<Leave>", leave)
+
+def agregarBarra(ventana, imagenes, textosTooltip=None):
     frmBarra = Frame(ventana)
     frmBarra.pack(side=TOP, fill=X)
     botones = []
+    i = 0
     for imagen in imagenes:
         #cargar la imagen
         img=PhotoImage(file = imagen)
@@ -66,8 +77,12 @@ def agregarBarra(ventana, imagenes):
         btn = Button(frmBarra, image=img)
         btn.image = img
         btn.pack(side=LEFT, padx=2, pady=2)
+        if textosTooltip:
+            crearTooltip(btn, textosTooltip[i])
+        i += 1
         botones.append(btn)
 
+    frmBarra.pack(side=TOP, fill=X)
     return botones
 
 def mostrarTabla(ventana, encabezados, datos, tabla):
@@ -142,3 +157,41 @@ class VistaTabla(object):
         arbol.heading(encabezado, command=lambda encabezado=encabezado: varClase.ordenar(arbol, encabezado, \
             int(not descendente)))
 
+#************************************************************
+
+class ToolTip(object):
+
+    def __init__(varClase, objetoTkinter):
+        varClase.objetoTkinter = objetoTkinter
+        varClase.objetoTooltip = None
+        varClase.id = None
+        varClase.x = varClase.y = 0
+
+    def mostrar(varClase, texto):
+        #Mostrar texto como tooltip
+        varClase.texto = texto
+        if varClase.objetoTooltip or not varClase.texto:
+            return
+        x, y, cx, cy = varClase.objetoTkinter.bbox("insert")
+        x = x + varClase.objetoTkinter.winfo_rootx() + 27
+        y = y + cy + varClase.objetoTkinter.winfo_rooty() +27
+        varClase.objetoTooltip = tw = Toplevel(varClase.objetoTkinter)
+        tw.wm_overrideredirect(1)
+        tw.wm_geometry("+%d+%d" % (x, y))
+        try:
+            # Para Mac OS
+            tw.tk.call("::tk::unsupported::MacWindowStyle",
+                       "style", tw._w,
+                       "help", "noActivates")
+        except TclError:
+            pass
+        lblTooltip = Label(tw, text=varClase.texto, justify=LEFT,
+                      background="#ffffe0", relief=SOLID, borderwidth=1,
+                      font=("tahoma", "8", "normal"))
+        lblTooltip.pack(ipadx=1)
+
+    def ocultar(varClase):
+        tp = varClase.objetoTooltip
+        varClase.objetoTooltip = None
+        if tp:
+            tp.destroy()
