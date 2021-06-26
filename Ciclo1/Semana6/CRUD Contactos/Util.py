@@ -55,6 +55,7 @@ def esReal(texto):
 def esEntero(texto):
     return True if re.match("^[-]?[0-9]+$", texto) else False
 
+<<<<<<< HEAD
 def crearTooltip(objetoTkinter, texto):
     toolTip = ToolTip(objetoTkinter)
     #Definir eventos que activan/desactivan el tooltip
@@ -70,6 +71,12 @@ def agregarBarra(ventana, imagenes, textosTooltip=None):
     frmBarra.pack(side=TOP, fill=X)
     botones = []
     i = 0
+=======
+def agregarBarra(ventana, imagenes):
+    frmBarra = Frame(ventana)
+    frmBarra.pack(side=TOP, fill=X)
+    botones = []
+>>>>>>> main
     for imagen in imagenes:
         #cargar la imagen
         img=PhotoImage(file = imagen)
@@ -77,12 +84,17 @@ def agregarBarra(ventana, imagenes, textosTooltip=None):
         btn = Button(frmBarra, image=img)
         btn.image = img
         btn.pack(side=LEFT, padx=2, pady=2)
+<<<<<<< HEAD
         if textosTooltip:
             crearTooltip(btn, textosTooltip[i])
         i += 1
         botones.append(btn)
 
     frmBarra.pack(side=TOP, fill=X)
+=======
+        botones.append(btn)
+
+>>>>>>> main
     return botones
 
 def mostrarTabla(ventana, encabezados, datos, tabla):
@@ -157,6 +169,7 @@ class VistaTabla(object):
         arbol.heading(encabezado, command=lambda encabezado=encabezado: varClase.ordenar(arbol, encabezado, \
             int(not descendente)))
 
+<<<<<<< HEAD
 #************************************************************
 
 class ToolTip(object):
@@ -195,3 +208,5 @@ class ToolTip(object):
         varClase.objetoTooltip = None
         if tp:
             tp.destroy()
+=======
+>>>>>>> main
