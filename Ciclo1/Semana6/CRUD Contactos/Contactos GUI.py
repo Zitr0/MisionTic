@@ -118,19 +118,24 @@ def ordenar():
 
 def aceptar():
     #verificar si se está agregando un contacto
+    # Verificar si estoy agregando
     if Contacto.indice == -1:
-        Contacto.agregar(txtId.get(), \
-                         txtNombre.get(), \
-                         txtCorreo.get(), \
-                         txtMovil.get() )
-        messagebox.showinfo("", "Contacto agregado al final de la lista")
+        if txtId.get() != '' and txtNombre.get() != '' and txtCorreo.get() != '' and txtMovil.get() != '':
+            Contacto.agregar(txtId.get(), \
+                             txtNombre.get(), \
+                             txtCorreo.get(), \
+                             txtMovil.get())
+            messagebox.showinfo("", "Contacto agregado al final de la lista")
+        else:
+            messagebox.showinfo("", "Debe diligenciar todos los campos")
+            # habilitar()
     else:
-        #Estoy modificando un contacto
         Contacto.modificar(txtId.get(), \
-                         txtNombre.get(), \
-                         txtCorreo.get(), \
-                         txtMovil.get() )
-    #Volver al modo de listado
+                           txtNombre.get(), \
+                           txtCorreo.get(), \
+                           txtMovil.get())
+
+    # Volver al modo de listado
     habilitar(False)
     mostrar()
     
@@ -171,5 +176,6 @@ botones[1].configure(command=modificar)
 botones[5].configure(command=aceptar)
 botones[6].configure(command=cancelar)
 
+v.mainloop()
 
 
