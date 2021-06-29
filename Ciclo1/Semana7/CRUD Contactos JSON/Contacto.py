@@ -1,3 +1,5 @@
+import json
+
 class Contacto():
 
     #posición del registro a editar
@@ -89,17 +91,9 @@ class Contacto():
     @staticmethod
     def guardar(nombreArchivo):
         #Abrir el archivo para escritura
-        archivo = open(nombreArchivo, "w")
-
-        for c in Contacto.contactos:
-            linea = c.id + ";" + \
-                    c.nombre + ";" + \
-                    c.correo + ";" + \
-                    c.movil
-            #guardo cada linea
-            archivo.write(linea)
-        #cerrar el archivo
-        archivo.close()
+        with open(nombreArchivo, "w") as archivoJSON:
+            #Convertir a texto JSON
+            json.dump([c.__dict__ for c in Contacto.contactos], archivoJSON)
 
         
 

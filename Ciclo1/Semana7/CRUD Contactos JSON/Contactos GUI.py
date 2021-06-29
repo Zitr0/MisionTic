@@ -122,7 +122,7 @@ def eliminar():
         messagebox.showinfo("", "debe seleccionar un contacto")
 
 def guardar():
-    Contacto.guardar("Contactos.csv")
+    Contacto.guardar("Contactos.json")
     messagebox.showinfo("", "La información fue guardada en el archivo")
 
 def ordenar():
