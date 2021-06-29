@@ -5,6 +5,7 @@ from tkinter.ttk import *
 #Importar libreria para Expresiones Regulares
 import re
 
+
 #Importar fuentes de texto
 from tkinter import font
 
@@ -55,8 +56,7 @@ def esReal(texto):
 def esEntero(texto):
     return True if re.match("^[-]?[0-9]+$", texto) else False
 
-<<<<<<< HEAD
-def crearTooltip(objetoTkinter, texto):
+def crearToolTip(objetoTkinter, texto):
     toolTip = ToolTip(objetoTkinter)
     #Definir eventos que activan/desactivan el tooltip
     def enter(event):
@@ -71,12 +71,6 @@ def agregarBarra(ventana, imagenes, textosTooltip=None):
     frmBarra.pack(side=TOP, fill=X)
     botones = []
     i = 0
-=======
-def agregarBarra(ventana, imagenes):
-    frmBarra = Frame(ventana)
-    frmBarra.pack(side=TOP, fill=X)
-    botones = []
->>>>>>> main
     for imagen in imagenes:
         #cargar la imagen
         img=PhotoImage(file = imagen)
@@ -84,24 +78,17 @@ def agregarBarra(ventana, imagenes):
         btn = Button(frmBarra, image=img)
         btn.image = img
         btn.pack(side=LEFT, padx=2, pady=2)
-<<<<<<< HEAD
         if textosTooltip:
-            crearTooltip(btn, textosTooltip[i])
-        i += 1
+            crearToolTip(btn, textosTooltip[i])
+        i +=1
         botones.append(btn)
-
-    frmBarra.pack(side=TOP, fill=X)
-=======
-        botones.append(btn)
-
->>>>>>> main
     return botones
 
-def mostrarTabla(ventana, encabezados, datos, tabla):
+def mostrarTabla(ventana, encabezados, datos, tabla=None):
     tabla = VistaTabla(ventana, encabezados, datos, tabla)
     return tabla.obtenerTabla()
 
-#******************************************************************************
+#************************************************************
 
 class VistaTabla(object):
     #Utiliza ttk.TreeView como una Rejilla de datos
@@ -144,7 +131,7 @@ class VistaTabla(object):
         varClase.arbol.delete(*varClase.arbol.get_children())
         #Recorrer los datos
         for fila in datosTabla:
-            varClase.arbol.insert('', 'end', values=fila)
+            varClase.arbol.insert("", "end", values=fila)
             #Ajusta el ancho de la columna si es necesario
             for i, dato in enumerate(fila):
                 anchoColumna = font.Font().measure(dato)
@@ -159,17 +146,16 @@ class VistaTabla(object):
     def ordenar(varClase, arbol, encabezado, descendente):
         #Obtener los valores a ordenar
         datos = [(arbol.set(nodo, encabezado), nodo) \
-            for nodo in arbol.get_children('')]
+            for nodo in arbol.get_children("")]
 
         #Ordenar los datos
         datos.sort(reverse=descendente)
         for i, fila in enumerate(datos):
-            arbol.move(fila[1], '', i)
+            arbol.move(fila[1], "", i)
         #Intercambiar el encabezado para que ordene en sentido contrario
         arbol.heading(encabezado, command=lambda encabezado=encabezado: varClase.ordenar(arbol, encabezado, \
             int(not descendente)))
 
-<<<<<<< HEAD
 #************************************************************
 
 class ToolTip(object):
@@ -208,5 +194,5 @@ class ToolTip(object):
         varClase.objetoTooltip = None
         if tp:
             tp.destroy()
-=======
->>>>>>> main
+
+

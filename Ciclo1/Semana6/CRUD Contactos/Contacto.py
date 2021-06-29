@@ -1,5 +1,4 @@
-
-class Contacto:
+class Contacto():
 
     #posición del registro a editar
     indice = -1
@@ -45,16 +44,15 @@ class Contacto:
     #Convertir los registros en una matriz de textos
     @staticmethod
     def pasarMatriz():
-
-        datos = []
-        for c in Contacto.contactos:
-            linea=[]
-            linea.append(c.id)
-            linea.append(c.nombre)
-            linea.append(c.correo)
-            linea.append(c.movil)
-            datos.append(linea)
-        return datos
+        matriz = []
+        for jesus in Contacto.contactos:
+            linea = []
+            linea.append(jesus.id)
+            linea.append(jesus.nombre)
+            linea.append(jesus.correo)
+            linea.append(jesus.movil)
+            matriz.append(linea)
+        return matriz
 
     #Método para Agregar un Contacto
     @staticmethod
@@ -84,4 +82,6 @@ class Contacto:
     @staticmethod
     def guardar(nombreArchivo):
         pass
+        
 
+    

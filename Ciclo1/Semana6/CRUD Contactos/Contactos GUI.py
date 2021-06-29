@@ -15,19 +15,16 @@ iconos = ["./iconos/agregar.png", \
           "./iconos/cancelar.png", \
           ]
 
-<<<<<<< HEAD
 #Lista de tooltips para los botones
-textosTooltip = [ "Agregar Contacto", \
-                  "Modificar Contacto", \
-                  "Quitar Contacto", \
-                  "Guardar cambios",\
-                  "Ordenar lista", \
-                  "Aceptar cambios", \
-                  "Cancelar edición"
+textosTooltip = [ "agregar Contacto", \
+                  "modificar Contacto", \
+                  "quitar Contacto", \
+                  "guardar los cambios realizados", \
+                  "ordenar la lista de contactos", \
+                  "aceptar los cambios", \
+                  "cancelar la edición"
                   ]
 
-=======
->>>>>>> main
 #posiciones de los botones de edición para habilitarlos/deshabilitarlos
 indiceBA = 5
 indiceBC = 6
@@ -60,25 +57,18 @@ def habilitar(editando):
                 botones[i].configure(state=DISABLED)
     #Desplegar el panel respectivo
     if len(nb.tabs())>0:
-        nb.forget(0)    #Limpiar las pestañas
+        nb.forget(0) #limpiar las pestañas
     if editando:
         nb.add(paneles[1], text="Editando Contacto")
     else:
         nb.add(paneles[0], text="Lista de contactos")
-    nb.focus()     #Refrescar las pestañas
+    nb.focus() #refrescar las pestañas
 
 #Metodo que muestra los contactos en una tabla
 def mostrar():
-
-<<<<<<< HEAD
     global tContactos
     datos = Contacto.pasarMatriz()
     tContactos = Util.mostrarTabla(paneles[0], encabezados, datos, tContactos)
-=======
-    datos = Contacto.pasarMatriz()
-    Util.mostrarTabla(paneles[0], encabezados, datos, tContactos)
->>>>>>> main
-
 
 #Método para limpiar los objetos de la edicion de un Contacto
 def limpiar():
@@ -105,22 +95,17 @@ def iniciarEdicion():
         limpiar()
 
 def agregar():
-<<<<<<< HEAD
     Contacto.indice = -1
     iniciarEdicion()
     
 def modificar():
+    global tContactos
+    #verificar si hay un copntacto seleccionado
     if tContactos.selection():
         Contacto.indice = tContactos.index(tContactos.selection())
         iniciarEdicion()
     else:
-        messagebox.showinfo("", "No tiene ningún contacto seleccionado")
-=======
-    pass
-    
-def modificar():
-    pass
->>>>>>> main
+        messagebox.showinfo("", "debe seleccionar un contacto")
 
 def eliminar():
     pass
@@ -132,48 +117,31 @@ def ordenar():
     pass
 
 def aceptar():
-<<<<<<< HEAD
-    #Verificar si estoy agregando
+    #verificar si se está agregando un contacto
     if Contacto.indice == -1:
-        if txtId.get() != '' and txtNombre.get() != '' and txtCorreo.get() != '' and txtMovil.get() != '':
-            Contacto.agregar(txtId.get(), \
-                             txtNombre.get(), \
-                             txtCorreo.get(), \
-                             txtMovil.get())
-            messagebox.showinfo("", "Contacto agregado al final de la lista")
-        else:
-            messagebox.showinfo("", "Faltan datos")
-            habilitar()
+        Contacto.agregar(txtId.get(), \
+                         txtNombre.get(), \
+                         txtCorreo.get(), \
+                         txtMovil.get() )
+        messagebox.showinfo("", "Contacto agregado al final de la lista")
     else:
+        #Estoy modificando un contacto
         Contacto.modificar(txtId.get(), \
                          txtNombre.get(), \
                          txtCorreo.get(), \
-                         txtMovil.get())
-
+                         txtMovil.get() )
     #Volver al modo de listado
     habilitar(False)
     mostrar()
-
-def cancelar():
-    limpiar()
-    # Volver al modo de listado
-    mostrar()
-
-=======
-    pass
+    
 
 def cancelar():
     pass
->>>>>>> main
 
 #Construir interfaz gráfica
 v = Tk()
 v.title("Mis contactos")
-<<<<<<< HEAD
 botones = Util.agregarBarra(v, iconos, textosTooltip) #Agrega una barra de herramientas
-=======
-botones = Util.agregarBarra(v, iconos) #Agrega una barra de herramientas
->>>>>>> main
 nb = Notebook(v)
 nb.pack(fill=BOTH, expand=YES)
 
@@ -191,15 +159,11 @@ txtCorreo=Util.agregarTexto(paneles[1], 30, 2, 1)
 txtMovil=Util.agregarTexto(paneles[1], 30, 3, 1)
 
 #Comenzar con el despliegue de los datos
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 habilitar(False)
 Contacto.obtener("Contactos.txt")
 mostrar()
 
-<<<<<<< HEAD
 #Agregar los eventos asociados a los botones
 botones[0].configure(command=agregar)
 botones[1].configure(command=modificar)
@@ -207,8 +171,5 @@ botones[1].configure(command=modificar)
 botones[5].configure(command=aceptar)
 botones[6].configure(command=cancelar)
 
-=======
->>>>>>> main
-v.mainloop()
 
 
