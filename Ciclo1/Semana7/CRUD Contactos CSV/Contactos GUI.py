@@ -84,13 +84,12 @@ def iniciarEdicion():
     habilitar(True)
     #Se esta editando un Contacto existente?
     if Contacto.indice >= 0:
-        c = Contacto.contactos[Contacto.indice]
+        c = Contacto.obtenerActual()
         if c != None:
-            Util.mostrar(txtId, c.id, False)
-            Util.mostrar(txtNombre, c.nombre, False)
-            Util.mostrar(txtCorreo, c.correo, False)
-            Util.mostrar(txtMovil, c.movil, False)
-            paneles[1].Text = "Editando datos del Contacto [" + c.nombre + "]"
+            cajasTexto = [txtId, txtNombre, txtCorreo, txtMovil]
+            for i in range(len(cajasTexto)):
+                Util.mostrar(cajasTexto[i], c[Contacto.campos[i]], False)
+            #paneles[1].Text = "Editando datos del Contacto [" + c.nombre + "]"
     else:
         limpiar()
 
@@ -122,7 +121,7 @@ def eliminar():
         messagebox.showinfo("", "debe seleccionar un contacto")
 
 def guardar():
-    Contacto.guardar("Contactos.json")
+    Contacto.guardar("Contactos.csv")
     messagebox.showinfo("", "La información fue guardada en el archivo")
 
 def ordenar():
@@ -181,7 +180,7 @@ txtMovil=Util.agregarTexto(paneles[1], 30, 3, 1)
 #Comenzar con el despliegue de los datos
 
 habilitar(False)
-Contacto.obtener("Contactos.json")
+Contacto.obtener("Contactos.csv")
 mostrar()
 
 #Agregar los eventos asociados a los botones

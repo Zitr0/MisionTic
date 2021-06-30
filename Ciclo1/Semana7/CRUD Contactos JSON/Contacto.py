@@ -25,23 +25,13 @@ class Contacto():
 
     #Obtener la lista de Contactos o un contacto en particular desde un archivo
     @staticmethod
-    def obtener(nombreArchivo, id=""):
-        lineas = open(nombreArchivo, "r")
-        if id == "":
-            Contacto.contactos = []
-            Contacto.indice = -1
-            for linea in lineas:
-                datos = linea.split(";")
-                if len(datos)>=4:
-                    c = Contacto(datos[0], datos[1], datos[2], datos[3])
-                    Contacto.contactos.append(c)
-        else:
-            for linea in lineas:
-                datos = linea.split(";")
-                if datos[0] == id:
-                    c = Contacto(datos[0], datos[1], datos[2], datos[3])
-                    return c
-            return None
+    def obtener(nombreArchivo):
+        with open(nombreArchivo, "r") as archivoJSON:
+            datos = json.load(archivoJSON)
+            for d in datos:
+                c = Contacto(d["id"], d["nombre"], d["correo"], d["movil"])
+                Contacto.contactos.append(c)
+
 
     #Convertir los registros en una matriz de textos
     @staticmethod
